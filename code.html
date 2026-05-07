@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Music Assistant</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-container": "#4b3fa0",
+                        "on-tertiary-fixed-variant": "#633b48",
+                        "on-primary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "on-surface": "#1a1c1d",
+                        "surface": "#f9f9fb",
+                        "surface-dim": "#d9dadc",
+                        "on-primary-fixed-variant": "#443798",
+                        "surface-container-low": "#f3f3f5",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary": "#512c39",
+                        "secondary-fixed": "#e6e1e7",
+                        "on-tertiary": "#ffffff",
+                        "inverse-surface": "#2f3132",
+                        "primary-fixed": "#e4dfff",
+                        "on-primary-fixed": "#170065",
+                        "inverse-on-surface": "#f0f0f2",
+                        "on-primary-container": "#bfb7ff",
+                        "surface-container-high": "#e8e8ea",
+                        "inverse-primary": "#c7bfff",
+                        "on-secondary-fixed-variant": "#48464a",
+                        "on-secondary-fixed": "#1c1b1f",
+                        "primary": "#342588",
+                        "tertiary-fixed-dim": "#eeb8c8",
+                        "primary-fixed-dim": "#c7bfff",
+                        "surface-tint": "#5c50b2",
+                        "tertiary-fixed": "#ffd9e3",
+                        "error": "#ba1a1a",
+                        "on-secondary-container": "#666368",
+                        "on-tertiary-container": "#e7b1c1",
+                        "error-container": "#ffdad6",
+                        "surface-container": "#edeef0",
+                        "surface-bright": "#f9f9fb",
+                        "on-error": "#ffffff",
+                        "secondary-fixed-dim": "#cac5cb",
+                        "on-error-container": "#93000a",
+                        "on-tertiary-fixed": "#31111d",
+                        "on-surface-variant": "#474552",
+                        "secondary-container": "#e6e1e7",
+                        "surface-container-highest": "#e2e2e4",
+                        "tertiary-container": "#6b4250",
+                        "background": "#f9f9fb",
+                        "on-background": "#1a1c1d",
+                        "surface-variant": "#e2e2e4",
+                        "outline": "#787583",
+                        "secondary": "#605d62",
+                        "outline-variant": "#c9c4d4"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-gap": "0.75rem",
+                        "inline-gutter": "0.5rem",
+                        "container-margin": "1rem",
+                        "bubble-padding": "0.75rem",
+                        "input-padding": "1rem"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-lg": ["Inter"],
+                        "headline-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.1px", "fontWeight": "500" }],
+                        "headline-sm": ["20px", { "lineHeight": "28px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+/* Markdown styling overrides */
+.markdown-content p { margin-bottom: 0.5em; }
+.markdown-content p:last-child { margin-bottom: 0; }
+.markdown-content ul { list-style-type: disc; padding-left: 1.5em; margin-bottom: 0.5em; }
+.markdown-content ol { list-style-type: decimal; padding-left: 1.5em; margin-bottom: 0.5em; }
+.markdown-content strong { font-weight: 600; }
+.markdown-content em { font-style: italic; }
+.markdown-content h1, .markdown-content h2, .markdown-content h3 { font-weight: 600; margin-top: 0.5em; margin-bottom: 0.25em; }
+</style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col font-body-md text-body-md pb-[140px] md:pb-[80px]">
+<header class="bg-surface dark:bg-surface-dim shadow-sm flex items-center justify-between px-container-margin w-full max-w-[720px] mx-auto docked full-width top-0 h-16 sticky z-50">
+<button class="text-primary dark:text-primary-fixed-dim hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-colors active:scale-95 duration-100 p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+<h1 class="font-headline-sm text-headline-sm font-semibold text-on-surface dark:text-inverse-on-surface">Nova</h1>
+<button class="text-primary dark:text-primary-fixed-dim hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-colors active:scale-95 duration-100 p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</header>
+<main class="flex-1 w-full max-w-[720px] mx-auto flex flex-col relative px-container-margin py-stack-gap">
+<div id="chat-container" class="flex flex-col space-y-stack-gap w-full flex-1 justify-end pb-[80px]">
+</div>
+</main>
+<div class="fixed bottom-0 md:bottom-20 left-1/2 -translate-x-1/2 w-full max-w-[720px] bg-surface/90 backdrop-blur-md border-t border-outline-variant/20 p-container-margin z-40 pb-safe">
+<div class="bg-surface-container-high rounded-full flex items-center px-input-padding py-2 shadow-sm focus-within:ring-2 focus-within:ring-primary focus-within:bg-surface transition-all">
+<input type="file" id="image-upload" accept="image/*" class="hidden">
+<button id="photo-button" class="text-on-surface-variant hover:text-primary p-2 rounded-full -ml-2 transition-colors cursor-pointer">
+<span class="material-symbols-outlined">add_photo_alternate</span>
+</button>
+<input id="chat-input" class="flex-1 bg-transparent border-none focus:ring-0 text-on-surface font-body-md text-body-md placeholder-on-surface-variant px-2 outline-none" placeholder="Ask about music..." type="text" autocomplete="off"/>
+<button id="send-button" class="text-primary opacity-40 p-2 rounded-full -mr-2 transition-colors cursor-not-allowed" disabled>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">send</span>
+</button>
+</div>
+</div>
+<nav class="md:hidden fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[720px] flex justify-around items-center px-4 py-2 pb-safe bg-surface-container dark:bg-surface-container-lowest/80 backdrop-blur-md shadow-[0_-1px_3px_rgba(0,0,0,0.08)] z-50">
+<a class="flex flex-col items-center justify-center bg-primary-container dark:bg-primary-fixed-variant text-on-primary-container dark:text-on-primary-fixed-variant rounded-full p-2 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="chat" style="font-variation-settings: 'FILL' 1;">chat</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant p-2 hover:bg-surface-container-highest dark:hover:bg-surface-container-high rounded-full transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="library_music">library_music</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant p-2 hover:bg-surface-container-highest dark:hover:bg-surface-container-high rounded-full transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</a>
+</nav>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const chatInput = document.getElementById("chat-input");
+    const sendButton = document.getElementById("send-button");
+    const chatContainer = document.getElementById("chat-container");
+    const photoButton = document.getElementById("photo-button");
+    const imageUpload = document.getElementById("image-upload");
+    
+    let chatHistory = [];
+
+    // Enable/disable send button based on input
+    chatInput.addEventListener("input", () => {
+        if (chatInput.value.trim().length > 0) {
+            sendButton.disabled = false;
+            sendButton.classList.remove("opacity-40", "cursor-not-allowed");
+        } else {
+            sendButton.disabled = true;
+            sendButton.classList.add("opacity-40", "cursor-not-allowed");
+        }
+    });
+
+    // Handle enter key
+    chatInput.addEventListener("keypress", (e) => {
+        if (e.key === "Enter" && !sendButton.disabled) {
+            sendMessage();
+        }
+    });
+
+    sendButton.addEventListener("click", () => {
+        if (!sendButton.disabled) sendMessage();
+    });
+
+    // Trigger image upload click
+    photoButton.addEventListener("click", () => {
+        imageUpload.click();
+    });
+
+    // Handle image upload
+    imageUpload.addEventListener("change", async (e) => {
+        if (e.target.files && e.target.files[0]) {
+            const file = e.target.files[0];
+            const messageText = chatInput.value.trim() || "Analyze this image relating to music.";
+            
+            // Clear input
+            chatInput.value = "";
+            sendButton.disabled = true;
+            sendButton.classList.add("opacity-40", "cursor-not-allowed");
+
+            appendUserMessage("[Image Uploaded] " + messageText);
+            
+            const formData = new FormData();
+            formData.append("image", file);
+            formData.append("message", messageText);
+            
+            await sendVisionRequest(formData);
+        }
+    });
+
+    function appendUserMessage(text) {
+        const msgDiv = document.createElement("div");
+        msgDiv.className = "flex w-full justify-end mb-2";
+        msgDiv.innerHTML = `
+            <div class="bg-primary-container text-on-primary-container rounded-2xl rounded-tr-sm p-bubble-padding shadow-[0_1px_3px_rgba(0,0,0,0.08)] max-w-[85%]">
+                <p class="font-body-md text-body-md whitespace-pre-wrap">${escapeHtml(text)}</p>
+            </div>
+        `;
+        chatContainer.appendChild(msgDiv);
+        window.scrollTo(0, document.body.scrollHeight);
+        chatHistory.push({ role: "user", content: text });
+    }
+
+    function appendAssistantMessage(htmlContent, isError = false) {
+        const msgDiv = document.createElement("div");
+        msgDiv.className = "flex w-full justify-start mb-2";
+        const textClass = isError ? "text-error" : "text-primary-fixed-variant dark:text-primary-fixed";
+        msgDiv.innerHTML = `
+            <div class="bg-surface-container-low ${textClass} rounded-2xl rounded-tl-sm p-bubble-padding shadow-[0_1px_3px_rgba(0,0,0,0.08)] max-w-[85%]">
+                <div class="font-body-md text-body-md markdown-content">${htmlContent}</div>
+            </div>
+        `;
+        chatContainer.appendChild(msgDiv);
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    // Helper to prevent XSS in user messages
+    function escapeHtml(unsafe) {
+        return unsafe
+             .replace(/&/g, "&amp;")
+             .replace(/</g, "&lt;")
+             .replace(/>/g, "&gt;")
+             .replace(/"/g, "&quot;")
+             .replace(/'/g, "&#039;");
+    }
+
+    async function sendMessage(retryCount = 0) {
+        const message = chatInput.value.trim();
+        let currentMessage = message;
+        if (!currentMessage && retryCount === 0) return;
+
+        if (retryCount === 0) {
+            appendUserMessage(currentMessage);
+            chatInput.value = "";
+            sendButton.disabled = true;
+            sendButton.classList.add("opacity-40", "cursor-not-allowed");
+        } else {
+             // on retry we need to use the last added user message from history
+             currentMessage = chatHistory[chatHistory.length - 1].content;
+        }
+        
+        // Pass a slice of history to maintain context
+        const reqBody = {
+            message: currentMessage,
+            history: chatHistory.slice(0, -1) // Excluding the last one because it's the current message
+        };
+
+        try {
+            const response = await fetch("/chat", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(reqBody)
+            });
+
+            await handleResponse(response, () => sendMessage(retryCount + 1), retryCount);
+        } catch (error) {
+            console.error("Fetch error:", error);
+            appendAssistantMessage("something went wrong, please retry", true);
+        }
+    }
+
+    async function sendVisionRequest(formData, retryCount = 0) {
+        try {
+            const response = await fetch("/vision", {
+                method: "POST",
+                body: formData
+            });
+
+            await handleResponse(response, () => sendVisionRequest(formData, retryCount + 1), retryCount);
+        } catch (error) {
+            console.error("Fetch error:", error);
+            appendAssistantMessage("something went wrong, please retry", true);
+        }
+    }
+
+    async function handleResponse(response, retryCallback, retryCount) {
+        if (response.ok) {
+            const data = await response.json();
+            const htmlContent = marked.parse(data.response);
+            appendAssistantMessage(htmlContent);
+            chatHistory.push({ role: "assistant", content: data.response });
+        } else if (response.status === 429) {
+            if (retryCount === 0) {
+                console.log("Rate limited. Retrying in 2 seconds...");
+                setTimeout(retryCallback, 2000);
+            } else {
+                appendAssistantMessage("busy, try again in a moment", true);
+            }
+        } else if (response.status === 403 || response.status === 400) {
+            const data = await response.json();
+            appendAssistantMessage(escapeHtml(data.detail || "Permission denied or API Error"), true);
+        } else {
+            console.error("Server error:", response.status);
+            appendAssistantMessage("something went wrong, please retry", true);
+        }
+    }
+});
+</script>
+</body>
+</html>
